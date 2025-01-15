@@ -1,0 +1,32 @@
+version: '3.4'
+
+services:
+  eshoppingcatalogdb:
+    container_name: eshoppingcatalogdb
+    restart: always
+    ports:
+      - "27017:27017" 
+    volumes:
+      - mongo_data:/data/db
+       
+     
+  catalog.api:
+    container_name: catalog.api
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - "DatabaseSettings__ConnectionString=mongodb://eshoppingcatalogdb:27017"
+      - "DatabaseSettings__DatabaseName=EShoppingCatalogDb"
+      - "DatabaseSettings__CollectionName=Products"
+      - "DatabaseSettings__BrandsCollection=Brands"
+      - "DatabaseSettings__TypesCollection=Types"
+    depends_on:
+      - eshoppingcatalogdb
+    ports:
+      - "9012:80"
+    
+ 
+    
+   
+  
+
+    
